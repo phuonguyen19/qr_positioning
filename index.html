@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QR Positioning</title>
     <link rel="stylesheet" href="123456.css" />
+    <style>
+#inventory {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: white;
+  padding: 10px;
+  z-index: 9999;
+}
+</style>
 </head>
 <body>
     <h1>QR Positioning</h1>
@@ -18,6 +28,7 @@
 
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script src="123456.js"></script>
+    <div id="inventory"></div>div>
     <script>
             // Your JSON data
 const items = [
