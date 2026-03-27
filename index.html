@@ -18,5 +18,33 @@
 
     <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
     <script src="123456.js"></script>
+    <script>
+            // Your JSON data
+const items = [
+  {"name":"sink","price":140,"inStock":false,"top":"11%","left":"15%"},
+  {"name":"table","price":100,"inStock":true,"top":"59%","left":"56%"}
+];
+
+// Select container
+const inventoryDiv = document.getElementById("inventory");
+
+// Loop through items
+items.forEach(item => {
+  // Create elements
+  const name = document.createElement("p");
+  const stock = document.createElement("p");
+  const price = document.createElement("p");
+
+  // Set content
+  name.textContent = "Name: " + item.name;
+  stock.textContent = "In store: " + (item.inStock ? "Yes" : "No");
+  price.textContent = "Price: €" + item.price;
+
+  // Append to DOM
+  inventoryDiv.appendChild(name);
+  inventoryDiv.appendChild(stock);
+  inventoryDiv.appendChild(price);
+});
+        </script>
 </body>
 </html>
