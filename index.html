@@ -30,30 +30,34 @@
     <script src="123456.js"></script>
     <div id="inventory"></div>div>
     <script>
-            // Your JSON data
-const items = [
+        const items = [
   {"name":"sink","price":140,"inStock":false,"top":"11%","left":"15%"},
   {"name":"table","price":100,"inStock":true,"top":"59%","left":"56%"}
 ];
 
-// Select container
-const inventoryDiv = document.getElementById("inventory");
-
-// Loop through items
 items.forEach(item => {
-  // Create elements
-  const name = document.createElement("p");
-  const stock = document.createElement("p");
-  const price = document.createElement("p");
+  const label = document.createElement("div");
+  label.classList.add("item-label");
 
-  // Set content
-  name.textContent = "Name: " + item.name;
-  stock.textContent = "In store: " + (item.inStock ? "Yes" : "No");
-  price.textContent = "Price: €" + item.price;
+  label.innerHTML = `
+    <div><strong>${item.name}</strong></div>
+    <div>€${item.price}</div>
+    <div class="${item.inStock ? "in" : "out"}">
+      ${item.inStock ? "In stock" : "Out of stock"}
+    </div>
+  `;
 
-  // Append to DOM
-  inventoryDiv.appendChild(name);
-  inventoryDiv.appendChild(stock);
+  // Position it on the layout
+  label.style.top = item.top;
+  label.style.left = item.left;
+
+  document.body.appendChild(label);
+});
+    </script>
+</body>
+</html>
+           
+  
   inventoryDiv.appendChild(price);
 });
         </script>
