@@ -36,3 +36,7 @@ function showMarkerAt(top, left) {
     marker.style.top = top;
     marker.style.left = left;
 }
+function onScanSuccess(decordedText){
+    const data = JSON.parse(decodedText);
+    updateMapPosition(data);
+}
