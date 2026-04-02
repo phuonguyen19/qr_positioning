@@ -56,9 +56,6 @@ button:hover {
   transform: scale(1.05);
   cursor: pointer;
 }
-.goo-wrapper{
-    filter: url('#gooey');
-}
 .bubble:hover{
     transform: scale(1);
 }
