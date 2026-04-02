@@ -33,6 +33,7 @@ h1 {
 
 #mapContainer {
     position: relative;
+    display: none;
 }
 
 #camera {
