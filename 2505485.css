@@ -38,12 +38,9 @@ h1 {
 #camera {
     width: 100%;
 }
-:root {
-  --main-color: #824caf; /* your class variable */
-}
 
 button {
-  background-color: var(--main-color);
+  background-color: var(--theme);
   color: white;
   border: none;
   padding: 12px 20px;
