@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Positioning</title>
+    <link rel="stylesheet" href="2505485.css"/>
+        </head>
+
+<body>
+
+<h1>QR Positioning</h1>
+
+<div id="mapContainer">
+    <img src="map.PNG" id="map" alt="map"/>
+    <div id="marker"></div>
+</div>
+
+<button id="btn" onclick="toggleScanner()">SCAN</button>
+
+<div id="camera"></div>
+<div id="inventory"></div>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<script src="2505485.js"></script>
+
+<script>
+const items = [
+  {"name":"sink","price":140,"inStock":false,"top":"11%","left":"15%"},
+  {"name":"table","price":100,"inStock":true,"top":"59%","left":"56%"}
+];
+
+items.forEach(item => {
+  const label = document.createElement("div");
+  label.classList.add("item-label");
+
+  label.innerHTML = `
+    <div><strong>${item.name}</strong></div>
+    <div>€${item.price}</div>
+    <div class="${item.inStock ? "in" : "out"}">
+      ${item.inStock ? "In stock" : "Out of stock"}
+    </div>
+  `;
+
+  label.style.top = item.top;
+  label.style.left = item.left;
+
+  document.getElementById("mapContainer").appendChild(label);
+});
+</script>
+
+</body>
+</html>
