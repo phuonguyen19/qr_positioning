@@ -1,0 +1,72 @@
+:root {
+    --theme: #280; /* CSS variable */
+}
+
+body {
+            font-family: Arial;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+
+        }
+
+        #mapContainer {
+            position: relative;
+            display: none;
+            width: 800px;
+        }
+
+        #map {
+            width: 100%;
+        }
+
+        #marker {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: red;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        #inventory {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            padding: 10px;
+            z-index: 9999;
+        }
+
+        #camera {
+            width: 300px;
+            margin-top: 20px;
+        }
+
+        .item-label {
+            position: absolute;
+            background: white;
+            padding: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .in { color: green; }
+        .out { color: red; }
+        button {
+  background-color: var(--theme);
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+button:hover {
+  background-color: #a07845; /* slightly darker */
+  transform: scale(1.05);
+  cursor: pointer;
+}
+.bubble:hover{
+    transform: scale(1);
+}
