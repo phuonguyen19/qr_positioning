@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pro Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root { --bg:#F3E7D9; --card:#544349; --accent:#22c55e; --accent2:#38bdf8; --text:#1A2517; --muted:#233D4C; }
+*{box-sizing:border-box}
+body{margin:0;font-family:'Inter',sans-serif;background:linear-gradient(180deg,#F3E7D9,#F3E7D9);color:var(--text);scroll-behavior:smooth}
+header{
+padding:60px 20px;
+text-align:center;
+background:radial-gradient(circle at top, #937181, transparent)}
+header h1{
+margin:0;
+font-size:42px}
+header p{
+color:var(--muted)}
+nav{
+position:sticky;
+top:0;
+background:#020617cc;
+backdrop-filter:blur(8px);padding:12px;text-align:center;border-bottom:1px solid #1f2937
+}
+nav a{
+margin:0 15px;
+color:var(--text);
+text-decoration:none;
+font-weight:600;
+transition:.3s
+}
+nav a:hover{
+color:var(--accent)
+}
+section{padding:40px;max-width:1000px;margin:auto}
+.card{background:var(--card);padding:20px;border-radius:16px;margin-bottom:20px}
+footer{
+text-align:center;
+padding:30px;
+background:#D8C7B5;
+border-top:1px solid #1f2937;
+}
+canvas{
+background:black;
+border-radius:10px;
+margin-top:10px
+}
+
+/* Sorting styles */
+#vis-container{height:200px;display:flex;align-items:flex-end;position:relative}
+.bar{width:7px;margin:0 1px;background:#22c55e}
+#motorcycle{position:absolute;font-size:20px;bottom:0;left:0; transform:scaleX(-1)}
+
+/* Chess styles */
+#chess-board{width:400px;height:400px;display:grid;grid-template-columns:repeat(8,1fr);grid-template-rows:repeat(8,1fr);border:10px solid #8b4513;margin:auto}
+.cell{width: 100%;
+    height: 100%;display:flex;align-items:center;justify-content:center; overflow: hidden;}
+.light{background:#f0d9b5}.dark{background:#b58863}
+img{width:50%}
+.invert{filter:invert(100%)}
+.cell img {
+    transition: transform 0.3s ease;
+}
+
+/*QR */
+#qrMapContainer {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+#mapContainer img {
+    width: 100%;
+    border-radius: 10px;
+    display: none;
+}
+
+#qrMarker {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    background: red;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#qrCamera {
+    margin: 10px auto;
+    width: 250px;
+}
+
+#qrInventory {
+    background: white;
+    color: black;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+</style>
+<script src="https://unpkg.com/html5-qrcode"></script>
+</head>
+<body>
+
+<header>
+<h1>Phuong Uyen</h1>
+<p>Vietnamese • ICT student • Creative Coder</p>
+</header>
+
+<nav>
+<a href="#about">About</a>
+<a href="#projects">Projects</a>
+<a href="#description">Description</a>
+</nav>
+
+<section id="about">
+    <h2>About Me</h2>
+<div class="card">
+<p>Hello! I'm a first-year student and majoring ICT at Karelia UAS, base in Joensuu, Finland. I enjoy building interactive web apps using HTML, CSS, and JavaScript.</p>
+<p>Here is my first personal portfolio webpage and I attached my previous assignments below</p>
+</div>
+</section>
+
+<section id="projects">
+<h2> Projects </h2>
+<!-- SORTING PROJECT -->
+<div class="card">
+<h3>Sorting Visualizer</h3>
+<p>Visualizes bubble sort with animation and a moving motorcycle.</p>
+<p>This project visualizes how sorting algorithms work. I learned about algorithms and animations.</p>
+<div id="vis-container">
+<div id="motorcycle">🏍️</div>
+</div>
+
+<label>Speed: <span id="speedValue">100</span> ms</label>
+<input type="range" min="10" max="500" value="100" onchange="changeSpeed(this.value)">
+</div>
+
+<!-- CHESS PROJECT -->
+<div class="card">
+<h3>Chess Game</h3>
+<p>Click a piece → click another square to move.</p>
+<p>This project indicates how inserting pieces by HTML tags and designing a chessboard by CSS. I learned some commands and algorithms in Javascript to make pieces move.</p>
+<div id="chess-board"></div>
+
+</div>
+<div class="card">
+<h3> QR positioning </h3>
+<p>
+        Scan a QR code to display a real-world location on a map.
+        I learned about camera APIs, JSON parsing, and coordinate mapping.
+    </p>
+
+    <button id="btn" onclick="toggleScanner()">SCAN</button>
+
+    <div id="camera"></div>
+
+    <div id="mapContainer">
+        <img src="map.PNG" id="map">
+        <div id="marker"></div>
+    </div>
+
+    <div id="inventory"></div>
+</div>
+</section>
+
+<script>
+// SORTING (from your file)
+const count = 50;
+const array = new Array(count);
+let var_speed = 100;
+
+for (let i = 0; i < count; i++) array[i] = Math.random();
+
+const visualizer = document.getElementById("vis-container");
+for (let i = 0; i < array.length; i++) {
+    const bar = document.createElement("div");
+    bar.classList.add("bar");
+    bar.style.height = array[i] * 100 + "%";
+    visualizer.appendChild(bar);
+}
+
+function updateBars() {
+    const bars = document.getElementsByClassName("bar");
+    for (let i = 0; i < bars.length; i++) {
+        bars[i].style.height = array[i] * 100 + "%";
+    }
+}
+
+async function bubbleSort(arr) {
+    do {
+        var swapped = false;
+        for (let i = 1; i < arr.length; i++) {
+            if (arr[i - 1] > arr[i]) {
+                let temp = arr[i - 1];
+                arr[i - 1] = arr[i];
+                arr[i] = temp;
+                swapped = true;
+                updateBars();
+                await new Promise(r => setTimeout(r, var_speed));
+            }
+        }
+    } while (swapped);
+
+    animateMotorcycle();
+}
+
+function changeSpeed(v){var_speed=parseInt(v);document.getElementById("speedValue").textContent=v}
+
+async function animateMotorcycle() {
+    const moto = document.getElementById("motorcycle");
+    const bars = document.getElementsByClassName("bar");
+
+    for (let i = 0; i < bars.length; i++) {
+        moto.style.left = bars[i].offsetLeft + "px";
+        moto.style.bottom = bars[i].offsetHeight + "px";
+        await new Promise(r => setTimeout(r, 50));
+    }
+}
+
+bubbleSort(array);
+
+// CHESS (simplified from your file)
+const chessBoard = document.getElementById("chess-board");
+let selectedPiece = null;
+for (let i = 0; i < 64; i++) {
+    const cell = document.createElement("div");
+    cell.className = "cell " + ((Math.floor(i/8)+i)%2?"dark":"light");
+
+    if (i < 16 || i >= 48) {
+        const img = document.createElement("img");
+        img.src = "pieces/p" + ((i%6)+1) + ".png";
+        if(i>=48) img.classList.add("invert");
+        cell.appendChild(img);
+    }
+
+    cell.onclick = () => {
+        if (selectedPiece) {
+           const targetCell = cell;
+const piece = selectedPiece;
+
+// get positions
+const startRect = piece.getBoundingClientRect();
+const endRect = targetCell.getBoundingClientRect();
+
+// calculate movement
+const dx = endRect.left - startRect.left;
+const dy = endRect.top - startRect.top;
+
+// animate
+piece.style.transform = `translate(${dx}px, ${dy}px)`;
+
+// after animation → move in DOM
+setTimeout(() => {
+    piece.style.transform = "none";
+    targetCell.appendChild(piece);
+}, 300);
+            selectedPiece = null;
+        } else if (cell.children.length > 0) {
+            selectedPiece = cell.children[0];
+        }
+    };
+
+    chessBoard.appendChild(cell);
+}
+
+//QR positioning
+const reader = new Html5Qrcode("camera");
+let scannerOn = false;
+
+const mapContainer = document.getElementById("mapContainer");
+const marker = document.getElementById("marker");
+const btn = document.getElementById("btn");
+
+function toggleScanner() {
+    scannerOn = !scannerOn;
+
+    if (scannerOn) {
+        startScanner();
+        mapContainer.style.display = "none";
+        btn.innerText = "CANCEL";
+    } else {
+        stopScanner();
+        mapContainer.style.display = "block";
+        btn.innerText = "SCAN";
+    }
+}
+
+function startScanner() {
+    reader.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        function (text) {
+            console.log("QR:", text);
+
+            try {
+                const place = JSON.parse(text);
+
+                const pos = convertToMapPosition(place.latitude, place.longitude);
+
+                showMarkerAt(pos.top, pos.left);
+
+                document.getElementById("inventory").innerHTML = `
+                    <strong>${place.name}</strong><br>
+                    Latitude: ${place.latitude}<br>
+                    Longitude: ${place.longitude}
+                `;
+
+                toggleScanner();
+
+            } catch (err) {
+                alert("Invalid QR JSON");
+                console.error(err);
+            }
+        }
+    ).catch(function (err) {
+        console.error(err);
+    });
+}
+
+function stopScanner() {
+    reader.stop().catch(err => console.log(err));
+}
+
+
+function showMarkerAt(top, left) {
+    marker.style.top = top;
+    marker.style.left = left;
+}
+
+function convertToMapPosition(lat, lng) {
+   
+    const minLat = 62.59;
+    const maxLat = 62.61;
+    const minLng = 29.75;
+    const maxLng = 29.80;
+
+    const mapWidth = 800;
+    const mapHeight = 600;
+
+    const x = ((lng - minLng) / (maxLng - minLng)) * mapWidth;
+    const y = ((maxLat - lat) / (maxLat - minLat)) * mapHeight;
+
+    return {
+        top: y + "px",
+        left: x + "px"
+    };
+}
+
+</script>
+<script src="https://unpkg.com/html5-qrcode"></script>
+<section id="description">
+    <h2>Short description</h2>
+    <div class="card">
+<p>I've worked on projects like a chess game, QR positioning and sorting visualizer which helped me understand logic, DOM manipulation, and animations.</p>
+    
+    </div>
+</section>
+
+<footer>
+    <address>
+        Email: 2505485@edu.karelia.fi
+    </address>
+    <p>
+        <a href="https://github.com/phuonguyen19">GitHub</a> 
+    </p>
+</footer>
+
+</body>
+</html>
